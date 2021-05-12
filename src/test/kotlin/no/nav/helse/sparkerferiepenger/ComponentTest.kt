@@ -1,18 +1,13 @@
 package no.nav.helse.sparkerferiepenger
 
-import kotliquery.queryOf
-import kotliquery.sessionOf
-import kotliquery.using
 import no.nav.common.KafkaEnvironment
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
-import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
-import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -44,7 +39,7 @@ internal class ComponentTest : TestAbstract() {
 
 
     @BeforeAll
-    override fun `setup`() {
+    override fun setup() {
         super.setup()
         embeddedKafkaEnvironment.start()
         producer = KafkaProducer(baseConfig().toProducerConfig())
@@ -52,7 +47,7 @@ internal class ComponentTest : TestAbstract() {
     }
 
     @AfterAll
-    fun `cleanup`() {
+    fun cleanup() {
         embeddedKafkaEnvironment.tearDown()
         producer.flush()
         producer.close()
@@ -93,17 +88,14 @@ internal class ComponentTest : TestAbstract() {
             it.last().run {
                 val fnr = FNR.first().toString().padStart(11, '0')
                 assertEquals(fnr, key())
-                mapOf(
-                    "@event_name" to "behov",
-                    "fødselsnummer" to fnr,
-                    "@behov" to listOf("SykepengehistorikkForFeriepenger"),
-                    "SykepengehistorikkForFeriepenger" to mapOf(
-                        "historikkFom" to fom,
-                        "historikkTom" to tom
-                    )
-                ).forEach { (key, value) ->
-                    assertTrue(value().contains(""""$key":"$value"""))
+
+                val recordValue = value()
+                mapOf("@event_name" to "behov", "fødselsnummer" to fnr).forEach { (key, value) ->
+                    assertTrue(recordValue.contains(""""$key":"$value"""))
                 }
+
+                assertTrue(recordValue.contains(""""@behov":["SykepengehistorikkForFeriepenger"]"""))
+                assertTrue(recordValue.contains(""""SykepengehistorikkForFeriepenger":{"historikkFom":"$fom","historikkTom":"$tom"}"""))
             }
         }
     }
