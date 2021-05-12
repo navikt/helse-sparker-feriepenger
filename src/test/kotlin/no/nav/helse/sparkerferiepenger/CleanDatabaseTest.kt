@@ -1,4 +1,4 @@
-package no.nav.helse.sparker
+package no.nav.helse.sparkerferiepenger
 
 import com.opentable.db.postgres.embedded.EmbeddedPostgres
 import com.zaxxer.hikari.HikariConfig
@@ -27,7 +27,7 @@ internal class CleanDatabaseTest {
         // Initielt oppsett av fagsystem-tabellen
         DataSourceBuilder(config).migrate()
 
-        val dao = PostgresFagsystemIdDao(dataSource)
+        /*val dao = PostgresMeldingDao(dataSource)
         dao.lagre("fagsystemId")
         assertTrue(dao.alleredeHåndtert("fagsystemId"))
 
@@ -37,7 +37,7 @@ internal class CleanDatabaseTest {
 
         // migrering med CLEAN_DATABASE tømmer databasen
         DataSourceBuilder(config + ("CLEAN_DATABASE" to "true")).migrate()
-        assertFalse(dao.alleredeHåndtert("fagsystemId"))
+        assertFalse(dao.alleredeHåndtert("fagsystemId"))*/
     }
 
     @BeforeAll

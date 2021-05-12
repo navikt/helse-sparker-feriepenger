@@ -1,4 +1,4 @@
-package no.nav.helse.sparker
+package no.nav.helse.sparkerferiepenger
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource

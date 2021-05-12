@@ -1,7 +1,6 @@
-package no.nav.helse.sparker
+package no.nav.helse.sparkerferiepenger
 
 import org.apache.kafka.clients.CommonClientConfigs
-import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.config.SslConfigs
@@ -19,15 +18,9 @@ internal class KafkaConfig(
 ) {
     private val log = LoggerFactory.getLogger(this::class.java)
 
-    internal fun consumerConfig() = Properties().apply {
-        putAll(kafkaBaseConfig())
-        put(ConsumerConfig.GROUP_ID_CONFIG, "sparker")
-        put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false")
-    }
-
     internal fun producerConfig() = Properties().apply {
         putAll(kafkaBaseConfig())
-        put(ProducerConfig.CLIENT_ID_CONFIG, "sparker")
+        put(ProducerConfig.CLIENT_ID_CONFIG, "sparker-feriepenger")
     }
 
     private fun kafkaBaseConfig() = Properties().apply {

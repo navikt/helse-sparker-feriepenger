@@ -1,11 +1,10 @@
-package no.nav.helse.sparker
+package no.nav.helse.sparkerferiepenger
 
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 internal class DataSourceBuilderTest {
-
     @Test
     internal fun `kaster ikke exception når tilkobling konfigureres riktig`() {
         assertDoesNotThrow {
