@@ -39,18 +39,18 @@ spec:
               value: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00047.preprod.local:8443
             - name: KAFKA_RAPID_TOPIC
               value: helse-rapid-v1
-            - name: DATABASE_HOST
-              value: b27dbvl023.preprod.local
-            - name: DATABASE_PORT
-              value: "5432"
             - name: DATABASE_NAME
               value: spare
+            - name: DATABASE_JDBC_URL
+              value: "jdbc:postgresql://b27dbvl023.preprod.local:5432/spare"
             - name: VAULT_MOUNTPATH
               value: postgresql/preprod-fss/
             - name: NAV_TRUSTSTORE_PATH
               value: /etc/ssl/certs/java/cacerts
             - name: NAV_TRUSTSTORE_PASSWORD
               value: changeme
+            - name: DRY_RUN
+              value: true
       imagePullSecrets:
         - name: gpr-credentials
       initContainers:

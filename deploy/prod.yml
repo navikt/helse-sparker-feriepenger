@@ -39,18 +39,18 @@ spec:
               value: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443,a01apvl00148.adeo.no:8443,a01apvl00149.adeo.no:8443,a01apvl00150.adeo.no:8443
             - name: KAFKA_RAPID_TOPIC
               value: helse-rapid-v1
-            - name: DATABASE_HOST
-              value: a01dbvl027.adeo.no
-            - name: DATABASE_PORT
-              value: "5432"
             - name: DATABASE_NAME
               value: spare
+            - name: DATABASE_JDBC_URL
+              value: "jdbc:postgresql://a01dbvl027.adeo.no:5432/spare"
             - name: VAULT_MOUNTPATH
               value: postgresql/prod-fss/
             - name: NAV_TRUSTSTORE_PATH
               value: /etc/ssl/certs/java/cacerts
             - name: NAV_TRUSTSTORE_PASSWORD
               value: changeme
+            - name: DRY_RUN
+              value: true
       imagePullSecrets:
         - name: gpr-credentials
       initContainers:

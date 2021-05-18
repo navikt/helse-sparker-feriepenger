@@ -61,8 +61,8 @@ abstract class TestAbstract {
     }
 
     companion object {
-        val FNR = listOf(
-            9038400182, 24068919084, 17086922452, 19026500128, 24038920673, 3079016259, 11117615091, 5068821403
+        val FØDSELSNUMRE = listOf(
+            9038400182, 24068919084, 17086922452, 19026500128, 24038920673, 3079016259, 11117615091, 5068821403, 9038400182
         )
 
         val MELDING_TYPE_ID = 1
@@ -79,7 +79,7 @@ abstract class TestAbstract {
         lagreMeldingType()
 
         using(sessionOf(dataSource)) { session ->
-            FNR.forEach {
+            FØDSELSNUMRE.forEach {
                 val query =
                     """INSERT INTO melding (id, melding_type_id, fnr, json) VALUES ('${UUID.randomUUID()}', $MELDING_TYPE_ID, $it, '{}')"""
                 session.run(queryOf(query).asUpdate)

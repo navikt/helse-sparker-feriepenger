@@ -16,21 +16,21 @@ val objectMapper = jacksonObjectMapper()
 
 
 fun main() {
-    val config = System.getenv().let { env ->
-        KafkaConfig(
-            topicName = env.getValue("KAFKA_RAPID_TOPIC"),
-            bootstrapServers = env.getValue("KAFKA_BOOTSTRAP_SERVERS"),
-            username = "/var/run/secrets/nais.io/service_user/username".readFile(),
-            password = "/var/run/secrets/nais.io/service_user/password".readFile(),
-            truststore = env["NAV_TRUSTSTORE_PATH"],
-            truststorePassword = env["NAV_TRUSTSTORE_PASSWORD"]
-        )
-    }
-
     val env = System.getenv()
+
+    val config = KafkaConfig(
+        topicName = env.getValue("KAFKA_RAPID_TOPIC"),
+        bootstrapServers = env.getValue("KAFKA_BOOTSTRAP_SERVERS"),
+        username = "/var/run/secrets/nais.io/service_user/username".readFile(),
+        password = "/var/run/secrets/nais.io/service_user/password".readFile(),
+        truststore = env["NAV_TRUSTSTORE_PATH"]!!,
+        truststorePassword = env["NAV_TRUSTSTORE_PASSWORD"]!!
+    )
+
     val dataSourceBuilder = DataSourceBuilder(env)
-    //TODO: dataSourceBuilder.migrate()
     val dataSource = dataSourceBuilder.getDataSource()
+
+    val dryRun = env.getValue("DRY_RUN").toString() != "false"
 
     val forrigeÅr = LocalDate.now().minusYears(1).year
     val fom = LocalDate.of(forrigeÅr, 1, 1)
@@ -38,7 +38,8 @@ fun main() {
     val meldingDao = PostgresMeldingDao(dataSource)
 
     val producer = KafkaProducer(config.producerConfig(), StringSerializer(), StringSerializer())
-    val sykepengehistorikkForFeriepengerHåndterer = SykepengehistorikkForFeriepengerHåndterer(config.topicName, meldingDao)
+    val sykepengehistorikkForFeriepengerHåndterer =
+        SykepengehistorikkForFeriepengerHåndterer(config.topicName, meldingDao, dryRun)
     sendSykepengehistorikkForFeriepengerJob(fom, tom, meldingDao, sykepengehistorikkForFeriepengerHåndterer, producer)
     exitProcess(0)
 }
@@ -46,7 +47,7 @@ fun main() {
 internal fun sendSykepengehistorikkForFeriepengerJob(
     fom: LocalDate,
     tom: LocalDate,
-    meldingDao: MedlingDao,
+    meldingDao: MeldingDao,
     sykepengehistorikkForFeriepengerHåndterer: SykepengehistorikkForFeriepengerHåndterer,
     producer: KafkaProducer<String, String>
 ) {

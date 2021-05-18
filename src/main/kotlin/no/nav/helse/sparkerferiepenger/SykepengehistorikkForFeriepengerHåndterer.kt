@@ -7,7 +7,8 @@ import java.time.LocalDate
 
 class SykepengehistorikkForFeriepengerHåndterer(
     private val topic: String,
-    private val meldingDao: MedlingDao
+    private val meldingDao: MeldingDao,
+    private val dryRun: Boolean
 ) {
 
     val sikkerlogg = LoggerFactory.getLogger("tjenestekall")
@@ -15,13 +16,15 @@ class SykepengehistorikkForFeriepengerHåndterer(
 
     internal fun håndter(fnr: String, fom: LocalDate, tom: LocalDate, producer: KafkaProducer<String, String>) {
         try {
-            producer.send(
-                ProducerRecord( // TODO: anybody help...?
-                    topic,
-                    fnr,
-                    objectMapper.writeValueAsString(mapTilSykepengehistorikkForFeriepengerBehov(fnr, fom, tom))
+            if (!dryRun) {
+                producer.send(
+                    ProducerRecord(
+                        topic,
+                        fnr,
+                        objectMapper.writeValueAsString(mapTilSykepengehistorikkForFeriepengerBehov(fnr, fom, tom))
+                    )
                 )
-            )
+            }
             meldingDao.lagreFnrForSendtFeriepengerbehov(fnr.toLong())
         } catch (e: Exception) {
             sikkerlogg.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for fødselsnummer $fnr")
