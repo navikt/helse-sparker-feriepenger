@@ -13,7 +13,7 @@ jobs:
       - name: create docker tag
         run: echo "TAG=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
     outputs:
-      image: docker.pkg.github.com/${{ github.repository }}/sparker:${{ env.TAG }}
+      image: docker.pkg.github.com/${{ github.repository }}/${{ github.repository }}:${{ env.TAG }}
 
   build:
     name: build docker image
@@ -60,5 +60,5 @@ jobs:
           ORG_GRADLE_PROJECT_githubUser: x-access-token
           ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: --project-name=sparker --org=tbd-ty7 --fail-on=all
+          args: --project-name=${{ github.repository }} --org=tbd-ty7 --fail-on=all
           command: monitor
