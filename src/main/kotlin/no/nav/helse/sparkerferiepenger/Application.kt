@@ -19,13 +19,13 @@ fun main() {
     val env = System.getenv()
 
     val config = KafkaConfig(
-        topicName = env.getValue("KAFKA_RAPID_TOPIC"),
-        bootstrapServers = env.getValue("KAFKA_BOOTSTRAP_SERVERS"),
-        username = "/var/run/secrets/nais.io/service_user/username".readFile(),
-        password = "/var/run/secrets/nais.io/service_user/password".readFile(),
-        truststore = env["NAV_TRUSTSTORE_PATH"]!!,
-        truststorePassword = env["NAV_TRUSTSTORE_PASSWORD"]!!
+        bootstrapServers = env.getValue("KAFKA_BROKERS"),
+        truststore = env.getValue("KAFKA_TRUSTSTORE_PATH"),
+        truststorePassword = env.getValue("KAFKA_CREDSTORE_PASSWORD"),
+        keystoreLocation = env.getValue("KAFKA_KEYSTORE_PATH"),
+        keystorePassword = env.getValue("KAFKA_CREDSTORE_PASSWORD")
     )
+    val topic = env.getValue("KAFKA_TARGET_TOPIC")
 
     val dataSourceBuilder = DataSourceBuilder(env)
     val dataSource = dataSourceBuilder.getDataSource()
@@ -39,7 +39,7 @@ fun main() {
 
     val producer = KafkaProducer(config.producerConfig(), StringSerializer(), StringSerializer())
     val sykepengehistorikkForFeriepengerHåndterer =
-        SykepengehistorikkForFeriepengerHåndterer(config.topicName, meldingDao, dryRun)
+        SykepengehistorikkForFeriepengerHåndterer(topic, meldingDao, dryRun)
     sendSykepengehistorikkForFeriepengerJob(fom, tom, meldingDao, sykepengehistorikkForFeriepengerHåndterer, producer)
     exitProcess(0)
 }
