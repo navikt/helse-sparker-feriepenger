@@ -5,7 +5,7 @@ val junitJupiterVersion = "5.7.0"
 val jacksonVersion = "2.11.3"
 
 plugins {
-    kotlin("jvm") version "1.4.10"
+    kotlin("jvm") version "1.5.0"
 }
 
 
@@ -19,7 +19,7 @@ dependencies {
     api(kotlin("stdlib-jdk8"))
     api("org.apache.kafka:kafka-clients:$kafkaVersion")
 
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.10")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
     implementation("org.flywaydb:flyway-core:7.0.4")
     implementation("com.zaxxer:HikariCP:3.4.5")
     implementation("no.nav:vault-jdbc:1.3.7")
@@ -46,10 +46,10 @@ dependencies {
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "14"
+        kotlinOptions.jvmTarget = "15"
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "14"
+        kotlinOptions.jvmTarget = "15"
     }
 
     named<Jar>("jar") {
@@ -83,6 +83,6 @@ tasks {
     }
 
     withType<Wrapper> {
-        gradleVersion = "6.7"
+        gradleVersion = "7.0.2"
     }
 }

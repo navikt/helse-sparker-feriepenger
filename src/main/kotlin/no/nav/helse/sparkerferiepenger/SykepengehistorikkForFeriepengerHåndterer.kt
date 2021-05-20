@@ -11,23 +11,23 @@ class SykepengehistorikkForFeriepengerHåndterer(
     private val dryRun: Boolean
 ) {
 
-    val sikkerlogg = LoggerFactory.getLogger("tjenestekall")
     val logger = LoggerFactory.getLogger(this.javaClass)
 
     internal fun håndter(fnr: String, fom: LocalDate, tom: LocalDate, producer: KafkaProducer<String, String>) {
         try {
             if (!dryRun) {
-                producer.send(
+                val metadata = producer.send(
                     ProducerRecord(
                         topic,
                         fnr,
                         objectMapper.writeValueAsString(mapTilSykepengehistorikkForFeriepengerBehov(fnr, fom, tom))
                     )
-                )
+                ).get()
+                logger.info("Sendt ut record med offset - ${metadata.offset()}, partisjon ${metadata.partition()}")
             }
+
             meldingDao.lagreFnrForSendtFeriepengerbehov(fnr.toLong())
         } catch (e: Exception) {
-            sikkerlogg.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for fødselsnummer $fnr")
             logger.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for person")
         }
     }
