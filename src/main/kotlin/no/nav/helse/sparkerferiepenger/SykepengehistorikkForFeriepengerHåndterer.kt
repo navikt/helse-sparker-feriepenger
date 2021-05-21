@@ -21,20 +21,20 @@ class SykepengehistorikkForFeriepengerHåndterer(
         producer: KafkaProducer<String, String>
     ) {
         try {
-            if (!dryRun) {
-                val metadata = producer.send(
-                    ProducerRecord(
-                        topic,
-                        fnr,
-                        objectMapper.writeValueAsString(
-                            mapTilSykepengehistorikkForFeriepengerBehov(fnr, aktørId, fom, tom)
-                        )
+            val metadata = producer.send(
+                ProducerRecord(
+                    topic,
+                    fnr,
+                    objectMapper.writeValueAsString(
+                        mapTilSykepengehistorikkForFeriepengerBehov(fnr, aktørId, fom, tom)
                     )
-                ).get()
-                logger.info("Sendt ut record med offset - ${metadata.offset()}, partisjon ${metadata.partition()}")
-            }
+                )
+            ).get()
+            logger.info("Sendt ut record med offset - ${metadata.offset()}, partisjon ${metadata.partition()}")
 
-            meldingDao.lagreFnrForSendtFeriepengerbehov(fnr.toLong())
+            if (!dryRun) {
+                meldingDao.lagreFnrForSendtFeriepengerbehov(fnr.toLong())
+            }
         } catch (e: Exception) {
             logger.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for person")
         }
