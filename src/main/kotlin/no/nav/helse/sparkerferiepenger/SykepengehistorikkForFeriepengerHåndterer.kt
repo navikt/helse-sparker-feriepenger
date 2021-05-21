@@ -13,14 +13,22 @@ class SykepengehistorikkForFeriepengerHåndterer(
 
     val logger = LoggerFactory.getLogger(this.javaClass)
 
-    internal fun håndter(fnr: String, fom: LocalDate, tom: LocalDate, producer: KafkaProducer<String, String>) {
+    internal fun håndter(
+        fnr: String,
+        aktørId: String,
+        fom: LocalDate,
+        tom: LocalDate,
+        producer: KafkaProducer<String, String>
+    ) {
         try {
             if (!dryRun) {
                 val metadata = producer.send(
                     ProducerRecord(
                         topic,
                         fnr,
-                        objectMapper.writeValueAsString(mapTilSykepengehistorikkForFeriepengerBehov(fnr, fom, tom))
+                        objectMapper.writeValueAsString(
+                            mapTilSykepengehistorikkForFeriepengerBehov(fnr, aktørId, fom, tom)
+                        )
                     )
                 ).get()
                 logger.info("Sendt ut record med offset - ${metadata.offset()}, partisjon ${metadata.partition()}")

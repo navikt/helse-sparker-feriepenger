@@ -21,7 +21,7 @@ abstract class TestAbstract {
     internal lateinit var postgresConnection: Connection
     internal lateinit var dataSource: DataSource
     internal lateinit var flyway: Flyway
-    internal lateinit var meldingDao: PostgresMeldingDao
+    internal lateinit var meldingDao: MeldingDao
 
     @BeforeAll
     internal fun setupAll(@TempDir postgresPath: Path) {
@@ -45,7 +45,7 @@ abstract class TestAbstract {
             .dataSource(dataSource)
             .load()
 
-        meldingDao = PostgresMeldingDao(dataSource)
+        meldingDao = MeldingDao(dataSource)
     }
 
     @BeforeEach
@@ -61,8 +61,16 @@ abstract class TestAbstract {
     }
 
     companion object {
-        val FØDSELSNUMRE = listOf(
-            9038400182, 24068919084, 17086922452, 19026500128, 24038920673, 3079016259, 11117615091, 5068821403, 9038400182
+        val PERSONIDER = listOf(
+            PersonIder("03079016259", UUID.randomUUID().toString()),
+            PersonIder("05068821403", UUID.randomUUID().toString()),
+            PersonIder("09038400182", UUID.randomUUID().toString()),
+            PersonIder("11117615091", UUID.randomUUID().toString()),
+            PersonIder("17086922452", UUID.randomUUID().toString()),
+            PersonIder("19026500128", UUID.randomUUID().toString()),
+            PersonIder("24038920673", UUID.randomUUID().toString()),
+            PersonIder("09038400182", UUID.randomUUID().toString()),
+            PersonIder("24068919084", UUID.randomUUID().toString()),
         )
 
         val MELDING_TYPE_ID = 1
@@ -79,9 +87,10 @@ abstract class TestAbstract {
         lagreMeldingType()
 
         using(sessionOf(dataSource)) { session ->
-            FØDSELSNUMRE.forEach {
+            PERSONIDER.forEach {
                 val query =
-                    """INSERT INTO melding (id, melding_type_id, fnr, json) VALUES ('${UUID.randomUUID()}', $MELDING_TYPE_ID, $it, '{}')"""
+                    """INSERT INTO melding (id, melding_type_id, fnr, json)
+                       VALUES ('${UUID.randomUUID()}', $MELDING_TYPE_ID, ${it.fødselsnummer}, '{"aktørId": "${it.aktørId}"}')"""
                 session.run(queryOf(query).asUpdate)
             }
         }

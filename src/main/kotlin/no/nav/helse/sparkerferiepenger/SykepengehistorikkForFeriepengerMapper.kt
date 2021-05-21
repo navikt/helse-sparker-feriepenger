@@ -5,11 +5,17 @@ import java.time.LocalDateTime
 import java.util.*
 
 
-fun mapTilSykepengehistorikkForFeriepengerBehov(fnr: String, fom: LocalDate, tom: LocalDate): Map<String, Any> =
+fun mapTilSykepengehistorikkForFeriepengerBehov(
+    fnr: String,
+    aktørId: String,
+    fom: LocalDate,
+    tom: LocalDate
+): Map<String, Any> =
     mapOf(
         "@id" to UUID.randomUUID(),
         "@event_name" to "behov",
         "@opprettet" to LocalDateTime.now(),
+        "aktørId" to aktørId,
         "fødselsnummer" to fnr,
         "@behov" to listOf("SykepengehistorikkForFeriepenger"),
         "SykepengehistorikkForFeriepenger" to mapOf(

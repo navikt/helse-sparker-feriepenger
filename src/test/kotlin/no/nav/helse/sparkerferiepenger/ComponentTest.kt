@@ -46,11 +46,12 @@ internal class ComponentTest : TestAbstract() {
 
         val sisteBehov = captured.last()
 
-        val fnr = FØDSELSNUMRE.first().toString().padStart(11, '0')
+        val fnr = PERSONIDER.last().fødselsnummer
+        val aktørId = PERSONIDER.last().aktørId
         assertEquals(fnr, sisteBehov.key())
 
         val recordValue = sisteBehov.value()
-        mapOf("@event_name" to "behov", "fødselsnummer" to fnr).forEach { (key, value) ->
+        mapOf("@event_name" to "behov", "fødselsnummer" to fnr, "aktørId" to aktørId).forEach { (key, value) ->
             assertTrue(recordValue.contains(""""$key":"$value"""))
         }
 

@@ -35,7 +35,7 @@ fun main() {
     val forrigeÅr = LocalDate.now().minusYears(1).year
     val fom = LocalDate.of(forrigeÅr, 1, 1)
     val tom = LocalDate.of(forrigeÅr, 12, 31)
-    val meldingDao = PostgresMeldingDao(dataSource)
+    val meldingDao = MeldingDao(dataSource)
 
     val producer = KafkaProducer(config.producerConfig(), StringSerializer(), StringSerializer())
     val sykepengehistorikkForFeriepengerHåndterer =
@@ -54,8 +54,8 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
     val logger = LoggerFactory.getLogger("no.nav.helse.sparker.feriepenger")
     val startMillis = System.currentTimeMillis()
 
-    meldingDao.hentFødselsnummere().forEach { fnr ->
-        sykepengehistorikkForFeriepengerHåndterer.håndter(fnr, fom, tom, producer)
+    meldingDao.hentFødselsnummere().forEach { personIder ->
+        sykepengehistorikkForFeriepengerHåndterer.håndter(personIder.fødselsnummer, personIder.aktørId, fom, tom, producer)
     }
 
     producer.flush()
