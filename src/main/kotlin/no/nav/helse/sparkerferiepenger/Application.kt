@@ -54,7 +54,7 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
     val logger = LoggerFactory.getLogger("no.nav.helse.sparker.feriepenger")
     val startMillis = System.currentTimeMillis()
 
-    meldingDao.hentFødselsnummere().take(20).forEach { personIder ->
+    meldingDao.hentFødselsnummere().take(200).forEach { personIder ->
         sykepengehistorikkForFeriepengerHåndterer.håndter(personIder.fødselsnummer, personIder.aktørId, fom, tom, producer)
     }
 
