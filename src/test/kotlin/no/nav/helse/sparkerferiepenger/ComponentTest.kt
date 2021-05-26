@@ -37,6 +37,7 @@ internal class ComponentTest : TestAbstract() {
             tom,
             meldingDao,
             sykepengehistorikkForFeriepengerHåndterer,
+            Integer.MAX_VALUE,
             producer
         )
 

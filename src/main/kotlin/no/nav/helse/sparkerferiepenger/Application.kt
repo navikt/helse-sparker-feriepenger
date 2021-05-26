@@ -31,6 +31,7 @@ fun main() {
     val dataSource = dataSourceBuilder.getDataSource()
 
     val dryRun = env.getValue("DRY_RUN").toString() != "false"
+    val antall = env.getValue("ANTALL").toInt()
 
     val forrigeÅr = LocalDate.now().minusYears(1).year
     val fom = LocalDate.of(forrigeÅr, 1, 1)
@@ -40,7 +41,7 @@ fun main() {
     val producer = KafkaProducer(config.producerConfig(), StringSerializer(), StringSerializer())
     val sykepengehistorikkForFeriepengerHåndterer =
         SykepengehistorikkForFeriepengerHåndterer(topic, meldingDao, dryRun)
-    sendSykepengehistorikkForFeriepengerJob(fom, tom, meldingDao, sykepengehistorikkForFeriepengerHåndterer, producer)
+    sendSykepengehistorikkForFeriepengerJob(fom, tom, meldingDao, sykepengehistorikkForFeriepengerHåndterer, antall, producer)
     exitProcess(0)
 }
 
@@ -49,12 +50,13 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
     tom: LocalDate,
     meldingDao: MeldingDao,
     sykepengehistorikkForFeriepengerHåndterer: SykepengehistorikkForFeriepengerHåndterer,
+    antall: Int,
     producer: KafkaProducer<String, String>
 ) {
     val logger = LoggerFactory.getLogger("no.nav.helse.sparker.feriepenger")
     val startMillis = System.currentTimeMillis()
 
-    meldingDao.hentFødselsnummere().take(200).forEach { personIder ->
+    meldingDao.hentFødselsnummere().take(antall).forEach { personIder ->
         sykepengehistorikkForFeriepengerHåndterer.håndter(personIder.fødselsnummer, personIder.aktørId, fom, tom, producer)
     }
 
