@@ -32,6 +32,7 @@ fun main() {
 
     val dryRun = env.getValue("DRY_RUN").toString() != "false"
     val antall = env.getValue("ANTALL").toInt()
+    val antallSkipped = env.getValue("ANTALL_SKIPPED").toInt()
     val enkeltperson = env.getValue("ENKELTPERSON")
 
     val forrigeÅr = LocalDate.now().minusYears(1).year
@@ -42,7 +43,17 @@ fun main() {
     val producer = KafkaProducer(config.producerConfig(), StringSerializer(), StringSerializer())
     val sykepengehistorikkForFeriepengerHåndterer =
         SykepengehistorikkForFeriepengerHåndterer(topic, meldingDao, dryRun)
-    sendSykepengehistorikkForFeriepengerJob(fom, tom, meldingDao, sykepengehistorikkForFeriepengerHåndterer, antall, enkeltperson, producer)
+
+    sendSykepengehistorikkForFeriepengerJob(
+        fom,
+        tom,
+        meldingDao,
+        sykepengehistorikkForFeriepengerHåndterer,
+        antall,
+        antallSkipped,
+        enkeltperson,
+        producer
+    )
     exitProcess(0)
 }
 
@@ -52,6 +63,7 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
     meldingDao: MeldingDao,
     sykepengehistorikkForFeriepengerHåndterer: SykepengehistorikkForFeriepengerHåndterer,
     antall: Int,
+    antallSkipped: Int,
     enkeltperson: String?,
     producer: KafkaProducer<String, String>
 ) {
@@ -63,7 +75,8 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
         sykepengehistorikkForFeriepengerHåndterer.håndter(parts[0], parts[1], fom, tom, producer)
         return
     }
-    meldingDao.hentFødselsnummere().take(antall).forEach { personIder ->
+
+    meldingDao.hentFødselsnummere().drop(antallSkipped).take(antall).forEach { personIder ->
         sykepengehistorikkForFeriepengerHåndterer.håndter(personIder.fødselsnummer, personIder.aktørId, fom, tom, producer)
     }
 

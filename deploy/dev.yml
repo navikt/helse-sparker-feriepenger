@@ -40,6 +40,8 @@ spec:
               value: "true"
             - name: ANTALL
               value: 2000
+            - name: ANTALL_SKIPPED
+              value: 0
             - name: VAULT_MOUNTPATH
               value: postgresql/preprod-fss/
             - name: KAFKA_BROKERS
