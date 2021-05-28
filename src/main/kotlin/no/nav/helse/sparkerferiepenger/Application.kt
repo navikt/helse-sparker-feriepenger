@@ -33,7 +33,7 @@ fun main() {
     val dryRun = env.getValue("DRY_RUN").toString() != "false"
     val antall = env.getValue("ANTALL").toInt()
     val antallSkipped = env.getValue("ANTALL_SKIPPED").toInt()
-    val enkeltperson = env.getValue("ENKELTPERSON")
+    val enkeltperson = env["ENKELTPERSON"]
 
     val forrigeÅr = LocalDate.now().minusYears(1).year
     val fom = LocalDate.of(forrigeÅr, 1, 1)
