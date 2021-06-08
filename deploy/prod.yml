@@ -36,12 +36,10 @@ spec:
               value: spare
             - name: DATABASE_JDBC_URL
               value: "jdbc:postgresql://a01dbvl027.adeo.no:5432/spare"
-            - name: DRY_RUN
-              value: "true"
             - name: ANTALL
-              value: 2000
+              value: "100"
             - name: ANTALL_SKIPPED
-              value: 0
+              value: "0"
             - name: VAULT_MOUNTPATH
               value: postgresql/prod-fss/
             - name: KAFKA_BROKERS

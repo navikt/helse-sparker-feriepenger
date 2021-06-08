@@ -95,10 +95,4 @@ abstract class TestAbstract {
             }
         }
     }
-
-    internal fun hentFødselsnummer() =
-        using(sessionOf(dataSource)) { session ->
-            val query = """SELECT fnr FROM sendt_feriepengerbehov"""
-            session.run(queryOf(query).map { it.long(1) }.asList)
-        }
 }

@@ -15,17 +15,13 @@ import java.time.LocalDate
 internal class ComponentTest : TestAbstract() {
     private val topic = "test-topic"
 
-    val producer = mockk<KafkaProducer<String, String>>(relaxed = true)
+    private val producer = mockk<KafkaProducer<String, String>>(relaxed = true)
 
     @Test
     fun `it worke`() {
         lagreMeldinger()
 
-        val sykepengehistorikkForFeriepengerHåndterer = SykepengehistorikkForFeriepengerHåndterer(
-            topic = topic,
-            meldingDao = meldingDao,
-            dryRun = false
-        )
+        val sykepengehistorikkForFeriepengerHåndterer = SykepengehistorikkForFeriepengerHåndterer(topic = topic)
 
         val fom = LocalDate.of(2020, 1, 1)
         val tom = LocalDate.of(2020, 12, 31)

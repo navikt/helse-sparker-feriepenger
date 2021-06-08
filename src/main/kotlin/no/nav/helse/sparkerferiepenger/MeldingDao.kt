@@ -15,8 +15,7 @@ class MeldingDao(private val dataSource: DataSource) {
             FROM
                 melding
             WHERE
-                fnr NOT IN (SELECT fnr FROM sendt_feriepengerbehov)
-                AND (melding.json #>> '{}')::json ->> 'aktørId' IS NOT NULL;
+                (melding.json #>> '{}')::json ->> 'aktørId' IS NOT NULL;
         """
         session.run(queryOf(query).map {
             PersonIder(
@@ -24,13 +23,6 @@ class MeldingDao(private val dataSource: DataSource) {
                 aktørId = it.string("aktørId")
             )
         }.asList)
-    }
-
-    fun lagreFnrForSendtFeriepengerbehov(fnr: Long) {
-        using(sessionOf(dataSource)) { session ->
-            val query = """INSERT INTO sendt_feriepengerbehov (fnr) VALUES ($fnr)"""
-            session.run(queryOf(query).asUpdate)
-        }
     }
 }
 

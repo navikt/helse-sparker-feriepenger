@@ -5,13 +5,8 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.slf4j.LoggerFactory
 import java.time.LocalDate
 
-class SykepengehistorikkForFeriepengerHåndterer(
-    private val topic: String,
-    private val meldingDao: MeldingDao,
-    private val dryRun: Boolean
-) {
-
-    val logger = LoggerFactory.getLogger(this.javaClass)
+class SykepengehistorikkForFeriepengerHåndterer(private val topic: String) {
+    private val logger = LoggerFactory.getLogger(this.javaClass)
 
     internal fun håndter(
         fnr: String,
@@ -31,10 +26,6 @@ class SykepengehistorikkForFeriepengerHåndterer(
                 )
             ).get()
             logger.info("Sendt ut record med offset - ${metadata.offset()}, partisjon ${metadata.partition()}")
-
-            if (!dryRun) {
-                meldingDao.lagreFnrForSendtFeriepengerbehov(fnr.toLong())
-            }
         } catch (e: Exception) {
             logger.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for person")
         }

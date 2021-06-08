@@ -30,7 +30,6 @@ fun main() {
     val dataSourceBuilder = DataSourceBuilder(env)
     val dataSource = dataSourceBuilder.getDataSource()
 
-    val dryRun = env.getValue("DRY_RUN").toString() != "false"
     val antall = env.getValue("ANTALL").toInt()
     val antallSkipped = env.getValue("ANTALL_SKIPPED").toInt()
     val enkeltperson = env["ENKELTPERSON"]
@@ -41,8 +40,7 @@ fun main() {
     val meldingDao = MeldingDao(dataSource)
 
     val producer = KafkaProducer(config.producerConfig(), StringSerializer(), StringSerializer())
-    val sykepengehistorikkForFeriepengerHåndterer =
-        SykepengehistorikkForFeriepengerHåndterer(topic, meldingDao, dryRun)
+    val sykepengehistorikkForFeriepengerHåndterer = SykepengehistorikkForFeriepengerHåndterer(topic)
 
     sendSykepengehistorikkForFeriepengerJob(
         fom,
