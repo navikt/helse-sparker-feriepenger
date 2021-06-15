@@ -35,7 +35,7 @@ internal class ComponentTest : TestAbstract() {
             sykepengehistorikkForFeriepengerHåndterer,
             Integer.MAX_VALUE,
             0,
-            null,
+            "",
             producer
         )
 

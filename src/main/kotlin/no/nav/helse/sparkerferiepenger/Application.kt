@@ -1,16 +1,16 @@
 package no.nav.helse.sparkerferiepenger
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.slf4j.LoggerFactory
-import java.io.File
 import java.time.LocalDate
 import kotlin.system.exitProcess
 
-val objectMapper = jacksonObjectMapper()
+val objectMapper: ObjectMapper = jacksonObjectMapper()
     .registerModule(JavaTimeModule())
     .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
 
@@ -32,7 +32,7 @@ fun main() {
 
     val antall = env.getValue("ANTALL").toInt()
     val antallSkipped = env.getValue("ANTALL_SKIPPED").toInt()
-    val enkeltperson = env["ENKELTPERSON"]
+    val enkeltpersoner = env.getValue("ENKELTPERSONER")
 
     val forrigeÅr = LocalDate.now().minusYears(1).year
     val fom = LocalDate.of(forrigeÅr, 1, 1)
@@ -49,7 +49,7 @@ fun main() {
         sykepengehistorikkForFeriepengerHåndterer,
         antall,
         antallSkipped,
-        enkeltperson,
+        enkeltpersoner,
         producer
     )
     exitProcess(0)
@@ -62,20 +62,30 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
     sykepengehistorikkForFeriepengerHåndterer: SykepengehistorikkForFeriepengerHåndterer,
     antall: Int,
     antallSkipped: Int,
-    enkeltperson: String?,
+    enkeltpersoner: String,
     producer: KafkaProducer<String, String>
 ) {
     val logger = LoggerFactory.getLogger("no.nav.helse.sparker.feriepenger")
     val startMillis = System.currentTimeMillis()
 
-    if (enkeltperson != null) {
-        val parts = enkeltperson.split(":")
-        sykepengehistorikkForFeriepengerHåndterer.håndter(parts[0], parts[1], fom, tom, producer)
+    if (enkeltpersoner.isNotBlank()) {
+        enkeltpersoner
+            .split(",")
+            .map { it.split(":") }
+            .forEach { (fnr, aktørId) ->
+                sykepengehistorikkForFeriepengerHåndterer.håndter(fnr, aktørId, fom, tom, producer)
+            }
         return
     }
 
     meldingDao.hentFødselsnummere().drop(antallSkipped).take(antall).forEach { personIder ->
-        sykepengehistorikkForFeriepengerHåndterer.håndter(personIder.fødselsnummer, personIder.aktørId, fom, tom, producer)
+        sykepengehistorikkForFeriepengerHåndterer.håndter(
+            personIder.fødselsnummer,
+            personIder.aktørId,
+            fom,
+            tom,
+            producer
+        )
     }
 
     producer.flush()
@@ -83,5 +93,3 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
 
     logger.info("Prosessert SykepengehistorikkForFeriepenger-behov på ${(System.currentTimeMillis() - startMillis) / 1000}s")
 }
-
-private fun String.readFile() = File(this).readText(Charsets.UTF_8)
