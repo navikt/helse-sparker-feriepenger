@@ -1,11 +1,11 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 
-val kafkaVersion = "2.4.0"
-val junitJupiterVersion = "5.7.0"
-val jacksonVersion = "2.11.3"
+val kafkaVersion = "2.8.0"
+val junitJupiterVersion = "5.7.2"
+val jacksonVersion = "2.12.5"
 
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.5.30"
 }
 
 
@@ -19,14 +19,14 @@ dependencies {
     api(kotlin("stdlib-jdk8"))
     api("org.apache.kafka:kafka-clients:$kafkaVersion")
 
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
-    implementation("org.flywaydb:flyway-core:7.0.4")
-    implementation("com.zaxxer:HikariCP:3.4.5")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
+    implementation("org.flywaydb:flyway-core:7.15.0")
+    implementation("com.zaxxer:HikariCP:5.0.0")
     implementation("no.nav:vault-jdbc:1.3.7")
-    implementation("org.postgresql:postgresql:42.2.13")
-    implementation("com.github.seratch:kotliquery:1.3.1")
-    implementation("ch.qos.logback:logback-classic:1.2.3")
-    implementation("net.logstash.logback:logstash-logback-encoder:6.4") {
+    implementation("org.postgresql:postgresql:42.2.23")
+    implementation("com.github.seratch:kotliquery:1.6.1")
+    implementation("ch.qos.logback:logback-classic:1.2.6")
+    implementation("net.logstash.logback:logstash-logback-encoder:6.6") {
         exclude("com.fasterxml.jackson.core")
         exclude("com.fasterxml.jackson.dataformat")
     }
@@ -35,21 +35,21 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 
-    testImplementation("com.opentable.components:otj-pg-embedded:0.13.3")
-    testImplementation("io.mockk:mockk:1.10.2")
+    testImplementation("com.opentable.components:otj-pg-embedded:0.13.4")
+    testImplementation("io.mockk:mockk:1.12.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.7.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
 }
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "15"
+        kotlinOptions.jvmTarget = "16"
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "15"
+        kotlinOptions.jvmTarget = "16"
     }
 
     named<Jar>("jar") {
@@ -83,6 +83,6 @@ tasks {
     }
 
     withType<Wrapper> {
-        gradleVersion = "7.0.2"
+        gradleVersion = "7.2"
     }
 }
