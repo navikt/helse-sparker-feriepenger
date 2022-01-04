@@ -33,7 +33,7 @@ fun main() {
     val antall = env.getValue("ANTALL").toInt()
     val antallSkipped = env.getValue("ANTALL_SKIPPED").toInt()
     val enkeltpersoner = env.getValue("ENKELTPERSONER")
-    val opptjeningsår = env.getValue("OPPTJENINGSÅR").toInt()
+    val opptjeningsår = env.getValue("OPPTJENINGSAAR").toInt()
 
     val fom = LocalDate.of(opptjeningsår, 1, 1)
     val tom = LocalDate.of(opptjeningsår, 12, 31)

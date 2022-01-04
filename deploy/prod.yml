@@ -42,8 +42,8 @@ spec:
               value: "0"
             - name: ENKELTPERSONER
               value: ""
-            - name: OPPTJENINGSÅR
-              value: 2020
+            - name: OPPTJENINGSAAR
+              value: "2020"
             - name: VAULT_MOUNTPATH
               value: postgresql/prod-fss/
             - name: KAFKA_BROKERS
