@@ -30,7 +30,7 @@ fun main() {
     val dataSourceBuilder = DataSourceBuilder(env)
     val dataSource = dataSourceBuilder.getDataSource()
 
-    val antall = env.getValue("ANTALL").toInt()
+    val antall = env.get("ANTALL")?.toInt() ?: Int.MAX_VALUE
     val antallSkipped = env.getValue("ANTALL_SKIPPED").toInt()
     val enkeltpersoner = env.getValue("ENKELTPERSONER")
     val opptjeningsår = env.getValue("OPPTJENINGSAAR").toInt()
