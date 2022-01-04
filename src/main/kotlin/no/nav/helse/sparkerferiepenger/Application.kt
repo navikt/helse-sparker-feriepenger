@@ -78,7 +78,7 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
         return
     }
 
-    meldingDao.hentFødselsnummere().drop(antallSkipped).take(antall).forEach { personIder ->
+    meldingDao.hentFødselsnummere(antall, antallSkipped).forEach { personIder ->
         sykepengehistorikkForFeriepengerHåndterer.håndter(
             personIder.fødselsnummer,
             personIder.aktørId,

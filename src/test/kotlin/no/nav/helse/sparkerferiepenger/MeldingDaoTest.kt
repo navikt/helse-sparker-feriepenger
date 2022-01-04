@@ -10,7 +10,7 @@ internal class MeldingDaoTest : TestAbstract() {
     @Test
     fun `kan hente ut fødselsnummere`() {
         lagreMeldinger()
-        val fødselsnummere = meldingDao.hentFødselsnummere()
+        val fødselsnummere = meldingDao.hentFødselsnummere(100000, 0)
         assertEquals(8, fødselsnummere.size)
     }
 }

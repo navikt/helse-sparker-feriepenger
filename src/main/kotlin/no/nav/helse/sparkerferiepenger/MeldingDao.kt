@@ -7,7 +7,7 @@ import javax.sql.DataSource
 
 
 class MeldingDao(private val dataSource: DataSource) {
-    fun hentFødselsnummere() = using(sessionOf(dataSource)) { session ->
+    fun hentFødselsnummere(antall: Int, antallSkipped: Int) = using(sessionOf(dataSource)) { session ->
         val query = """
             SELECT DISTINCT ON
                 (fnr) fnr,
@@ -15,7 +15,9 @@ class MeldingDao(private val dataSource: DataSource) {
             FROM
                 melding
             WHERE
-                (melding.json #>> '{}')::json ->> 'aktørId' IS NOT NULL;
+                (melding.json #>> '{}')::json ->> 'aktørId' IS NOT NULL
+            ORDER BY fnr
+            LIMIT $antall OFFSET $antallSkipped;
         """
         session.run(queryOf(query).map {
             PersonIder(
