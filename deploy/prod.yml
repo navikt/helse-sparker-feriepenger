@@ -18,7 +18,7 @@ spec:
               memory: 256Mi
               cpu: 100m
             limits:
-              memory: 512Mi
+              memory: 4096Mi
               cpu: 1000m
           volumeMounts:
             - mountPath: /var/run/secrets/nais.io/vault
@@ -42,6 +42,8 @@ spec:
               value: "0"
             - name: ENKELTPERSONER
               value: ""
+            - name: OPPTJENINGSÅR
+              value: 2020
             - name: VAULT_MOUNTPATH
               value: postgresql/prod-fss/
             - name: KAFKA_BROKERS

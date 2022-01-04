@@ -33,10 +33,10 @@ fun main() {
     val antall = env.getValue("ANTALL").toInt()
     val antallSkipped = env.getValue("ANTALL_SKIPPED").toInt()
     val enkeltpersoner = env.getValue("ENKELTPERSONER")
+    val opptjeningsår = env.getValue("OPPTJENINGSÅR").toInt()
 
-    val forrigeÅr = LocalDate.now().minusYears(1).year
-    val fom = LocalDate.of(forrigeÅr, 1, 1)
-    val tom = LocalDate.of(forrigeÅr, 12, 31)
+    val fom = LocalDate.of(opptjeningsår, 1, 1)
+    val tom = LocalDate.of(opptjeningsår, 12, 31)
     val meldingDao = MeldingDao(dataSource)
 
     val producer = KafkaProducer(config.producerConfig(), StringSerializer(), StringSerializer())
