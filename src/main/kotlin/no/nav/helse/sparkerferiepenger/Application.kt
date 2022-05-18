@@ -14,8 +14,11 @@ val objectMapper: ObjectMapper = jacksonObjectMapper()
     .registerModule(JavaTimeModule())
     .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
 
+val sikkerLogger = LoggerFactory.getLogger("tjenestekall")
 
 fun main() {
+    sikkerLogger.info("Starter opp appen..")
+
     val env = System.getenv()
 
     val config = KafkaConfig(
@@ -78,7 +81,10 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
         return
     }
 
-    meldingDao.hentFødselsnummere(antall, antallSkipped).forEach { personIder ->
+    val fødselsnumre = meldingDao.hentFødselsnummere(antall, antallSkipped)
+    logger.info("Fant ${fødselsnumre.size} fødselsnumre, starter publisering av behov...")
+
+    fødselsnumre.forEach { personIder ->
         sykepengehistorikkForFeriepengerHåndterer.håndter(
             personIder.fødselsnummer,
             personIder.aktørId,
