@@ -28,7 +28,7 @@ class SykepengehistorikkForFeriepengerHåndterer(private val topic: String) {
             logger.info("Sendt ut record med offset - ${metadata.offset()}, partisjon ${metadata.partition()}")
         } catch (e: Exception) {
             logger.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for person")
-            sikkerLogger.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for person fnr=$fnr, aktørid=$aktørId", e)
+            logger.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for person aktørid=$aktørId", e)
         }
     }
 }

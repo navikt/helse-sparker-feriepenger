@@ -14,10 +14,7 @@ val objectMapper: ObjectMapper = jacksonObjectMapper()
     .registerModule(JavaTimeModule())
     .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
 
-val sikkerLogger = LoggerFactory.getLogger("tjenestekall")
-
 fun main() {
-    sikkerLogger.info("Starter opp appen..")
 
     val env = System.getenv()
 
