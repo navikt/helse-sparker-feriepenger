@@ -5,6 +5,13 @@
 Finner utbetalings-events og legger melding om utbetaling av feriepenger på rapid.
 Sparker-feriepenger kjører som en job i Kubernetes
 
+## Forberedelser
+1. Sjekk først om secret finnes ved `k describe secret <SECRET_NAVN_KOPIERT_FRA_YML_FIL>`
+2. Hvis ikke generer ny secret med følgende kommandoer:
+   1. `nais aiven create kafka sparke-feriepenger tbd`. For prod, legg til parameter `-p nav-prod`
+   2. Secret kan inspiseres ved `k describe secret tbd-sparke-feriepenger-<SHA>`
+   3. Kopier inn secret-navn alle plasser i rett yml-fil.
+
 ## Kjøre jobben
 1. Finn ønsket Docker-image fra feks output fra GitHub Actions
 

@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: helse-sparker-feriepenger
-          image: docker.pkg.github.com/navikt/helse-sparker-feriepenger/helse-sparker-feriepenger:<lim inn SHA her>
+          image: ghcr.io/navikt/helse-sparker-feriepenger/helse-sparker-feriepenger:<SHA>
           resources:
             requests:
               memory: 256Mi
@@ -43,19 +43,19 @@ spec:
             - name: ENKELTPERSONER
               value: ""
             - name: OPPTJENINGSAAR
-              value: "2020"
+              value: "2021"
             - name: VAULT_MOUNTPATH
               value: postgresql/prod-fss/
             - name: KAFKA_BROKERS
               valueFrom:
                 secretKeyRef:
                   key: KAFKA_BROKERS
-                  name: kafka-sparke-feriepenger-nav-prod-6643edc4
+                  name: tbd-sparke-feriepenger-edcb3d26
             - name: KAFKA_CREDSTORE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: KAFKA_CREDSTORE_PASSWORD
-                  name: kafka-sparke-feriepenger-nav-prod-6643edc4
+                  name: tbd-sparke-feriepenger-edcb3d26
             - name: KAFKA_KEYSTORE_PATH
               value: /var/run/secrets/nais.io/kafka/client.keystore.p12
             - name: KAFKA_TRUSTSTORE_PATH
@@ -109,5 +109,5 @@ spec:
                 path: client.keystore.p12
               - key: client.truststore.jks
                 path: client.truststore.jks
-            secretName: kafka-sparke-feriepenger-nav-prod-6643edc4
+            secretName: tbd-sparke-feriepenger-edcb3d26
       restartPolicy: Never
