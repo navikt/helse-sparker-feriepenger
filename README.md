@@ -7,7 +7,6 @@ Sparker-feriepenger kjører som en job i Kubernetes.
 2. Hvis ikke generer ny secret med følgende kommandoer:
    1. `nais aiven create kafka sparke-feriepenger tbd -s sparker-feriepenger`. For prod, legg til parameter `-p nav-prod`
    2. Secret kan inspiseres ved `k describe secret sparker-feriepenger`
-   3. Kopier inn secret-navn alle plasser i rett yml-fil.
 3. I Spleis, oppdater hardkodet verdi på `DATO_FOR_SISTE_FERIEPENGEKJØRING_I_INFOTRYGD` i forhold til året det skal kjøres beregning for.
 
 ## Kjøre jobben
