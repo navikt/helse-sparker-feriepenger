@@ -1,6 +1,6 @@
 Henter fødselsnumre fra databasen til spare og legger behovmeldinger for `SykepengehistorikkForFeriepenger` på rapiden, som blir besvart og får Spleis til å beregne og eventuelt utbetale feriepenger.
 
-Sparker-feriepenger kjører som en job i Kubernetes.
+Sparker-feriepenger kjører som en `job` i prod-fss (eller dev-fss).
 
 ## Forberedelser
 1. Sjekk først om secret finnes ved `k describe secret sparker-feriepenger`
