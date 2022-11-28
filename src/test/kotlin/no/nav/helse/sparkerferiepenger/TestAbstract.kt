@@ -33,6 +33,7 @@ abstract class TestAbstract {
             minimumIdle = 1
             idleTimeout = 10001
             connectionTimeout = 10000
+            initializationFailTimeout = 5000
             maxLifetime = 30001
         })
 

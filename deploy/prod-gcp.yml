@@ -9,9 +9,10 @@ spec:
   resources:
     requests:
       memory: 4096Mi
-      cpu: 1000m
+      cpu: 100m
     limits:
       memory: 4096Mi
+      cpu: 100m
   ttlSecondsAfterFinished: 300
   backoffLimit: 0
   parallelism: 1
