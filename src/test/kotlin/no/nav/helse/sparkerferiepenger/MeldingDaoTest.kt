@@ -1,10 +1,9 @@
 package no.nav.helse.sparkerferiepenger
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-@Disabled
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class MeldingDaoTest : TestAbstract() {
 

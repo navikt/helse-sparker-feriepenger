@@ -1,42 +1,38 @@
 package no.nav.helse.sparkerferiepenger
 
-import com.opentable.db.postgres.embedded.EmbeddedPostgres
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
 import org.flywaydb.core.Flyway
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.io.TempDir
-import java.nio.file.Path
-import java.sql.Connection
+import org.testcontainers.containers.PostgreSQLContainer
 import java.util.*
 import javax.sql.DataSource
 
 abstract class TestAbstract {
-    internal lateinit var embeddedPostgres: EmbeddedPostgres
-    internal lateinit var postgresConnection: Connection
-    internal lateinit var dataSource: DataSource
-    internal lateinit var flyway: Flyway
-    internal lateinit var meldingDao: MeldingDao
+    private val dataSource: DataSource
+    private val flyway: Flyway
+    protected val meldingDao: MeldingDao
 
-    @BeforeAll
-    internal fun setupAll(@TempDir postgresPath: Path) {
-        embeddedPostgres = EmbeddedPostgres.builder()
-            .setOverrideWorkingDirectory(postgresPath.toFile())
-            .setDataDirectory(postgresPath.resolve("datadir"))
-            .start()
-        postgresConnection = embeddedPostgres.postgresDatabase.connection
+    private val postgres = PostgreSQLContainer<Nothing>("postgres:14").apply {
+        withReuse(true)
+        withLabel("app-navn", "sparke-sin-sparsom")
+        start()
 
+        println("Database: jdbc:postgresql://localhost:$firstMappedPort/test startet opp, credentials: test og test")
+    }
+
+    init {
         dataSource = HikariDataSource(HikariConfig().apply {
-            jdbcUrl = embeddedPostgres.getJdbcUrl("postgres", "postgres")
+            jdbcUrl = postgres.jdbcUrl
+            username = postgres.username.also (::println)
+            password = postgres.password
             maximumPoolSize = 3
             minimumIdle = 1
             idleTimeout = 10001
-            connectionTimeout = 1000
+            connectionTimeout = 10000
             maxLifetime = 30001
         })
 
@@ -52,12 +48,6 @@ abstract class TestAbstract {
     internal open fun setup() {
         flyway.clean()
         flyway.migrate()
-    }
-
-    @AfterAll
-    internal fun tearDown() {
-        postgresConnection.close()
-        embeddedPostgres.close()
     }
 
     companion object {
