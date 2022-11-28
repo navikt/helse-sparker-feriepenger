@@ -1,0 +1,44 @@
+apiVersion: nais.io/v1
+kind: Naisjob
+metadata:
+  labels:
+    team: tbd
+  name: helse-sparker-feriepenger
+  namespace: tbd
+spec:
+  resources:
+    requests:
+      memory: 4096Mi
+      cpu: 1000m
+    limits:
+      memory: 4096Mi
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 0
+  parallelism: 1
+  completions: 1
+  image: ghcr.io/navikt/helse-sparker-feriepenger/helse-sparker-feriepenger:<SHA>
+  kafka:
+    pool: nav-dev
+  secureLogs:
+    enabled: true
+  envFrom:
+    - secret: google-sql-spare-spare-helse-sparker-feriepenger-4333df58
+  gcp:
+    permissions:
+      - resource:
+          apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+          kind: Project
+          name: tbd-dev-7ff9
+        role: roles/cloudsql.client
+  env:
+    - name: KAFKA_TARGET_TOPIC
+      value: tbd.rapid.v1
+    - name: ANTALL
+      value: "100"
+    - name: ANTALL_SKIPPED
+      value: "0"
+    - name: ENKELTPERSONER
+      value: ""
+    - name: OPPTJENINGSAAR
+      value: "2021"
+
