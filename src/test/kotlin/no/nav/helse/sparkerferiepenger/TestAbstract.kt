@@ -53,15 +53,15 @@ abstract class TestAbstract {
 
     companion object {
         val PERSONIDER = listOf(
-            PersonIder("03079016259", UUID.randomUUID().toString()),
-            PersonIder("05068821403", UUID.randomUUID().toString()),
-            PersonIder("09038400182", UUID.randomUUID().toString()),
-            PersonIder("11117615091", UUID.randomUUID().toString()),
-            PersonIder("17086922452", UUID.randomUUID().toString()),
-            PersonIder("19026500128", UUID.randomUUID().toString()),
-            PersonIder("24038920673", UUID.randomUUID().toString()),
-            PersonIder("09038400182", UUID.randomUUID().toString()),
-            PersonIder("24068919084", UUID.randomUUID().toString()),
+            PersonIder("03079016259", "203079016259"),
+            PersonIder("05068821403", "205068821403"),
+            PersonIder("09038400182", "209038400182"),
+            PersonIder("11117615091", "211117615091"),
+            PersonIder("17086922452", "217086922452"),
+            PersonIder("19026500128", "219026500128"),
+            PersonIder("24038920673", "224038920673"),
+            PersonIder("09038400182", "209038400182"),
+            PersonIder("24068919084", "224068919084"),
         )
 
         val MELDING_TYPE_ID = 1
@@ -80,8 +80,8 @@ abstract class TestAbstract {
         using(sessionOf(dataSource)) { session ->
             PERSONIDER.forEach {
                 val query =
-                    """INSERT INTO melding (id, melding_type_id, fnr, json)
-                       VALUES ('${UUID.randomUUID()}', $MELDING_TYPE_ID, ${it.fødselsnummer}, '{"aktørId": "${it.aktørId}"}')"""
+                    """INSERT INTO melding (id, melding_type_id, fnr, aktor_id, json)
+                       VALUES ('${UUID.randomUUID()}', $MELDING_TYPE_ID, ${it.fødselsnummer}, ${it.aktørId}, '{}')"""
                 session.run(queryOf(query).asUpdate)
             }
         }

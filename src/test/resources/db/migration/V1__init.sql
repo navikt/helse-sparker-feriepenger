@@ -11,6 +11,7 @@ CREATE TABLE melding
     opprettet       TIMESTAMP NOT NULL DEFAULT now(),
     lagret          TIMESTAMP NOT NULL DEFAULT now(),
     fnr             BIGINT    NOT NULL,
+    aktor_id        BIGINT    NOT NULL,
     json            JSON      NOT NULL
 );
 

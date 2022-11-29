@@ -1,6 +1,6 @@
 Henter fødselsnumre fra databasen til spare og legger behovmeldinger for `SykepengehistorikkForFeriepenger` på rapiden, som blir besvart og får Spleis til å beregne og eventuelt utbetale feriepenger.
 
-Sparker-feriepenger kjører som en `job` i prod-gcp (eller dev-gcp).
+Sparker-feriepenger kjører som en `naisjob` i prod-gcp (eller dev-gcp).
 
 ## Forberedelser
 1. I spleis, oppdater hardkodet verdi på `DATO_FOR_SISTE_FERIEPENGEKJØRING_I_INFOTRYGD` i forhold til året det skal kjøres beregning for.
@@ -17,7 +17,7 @@ Sparker-feriepenger kjører som en `job` i prod-gcp (eller dev-gcp).
 ## Nyttig triks når alt håp er ute
 Ved problemer ved tilganger til rapid og/eller CloudSQL, prøv denne du:
 ```bash
-k patch naisjob helse-sparker-feriepenger -n tbd --type json -p='[{"op": "remove", "path": "/status/synchronizationHash"}]
+k patch naisjob helse-sparker-feriepenger -n tbd --type json -p='[{"op": "remove", "path": "/status/synchronizationHash"}]'
 ```
 
 ## Henvendelser
