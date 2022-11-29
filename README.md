@@ -1,6 +1,6 @@
 Henter fødselsnumre fra databasen til spare og legger behovmeldinger for `SykepengehistorikkForFeriepenger` på rapiden, som blir besvart og får Spleis til å beregne og eventuelt utbetale feriepenger.
 
-Sparker-feriepenger kjører som en `job` i prod-fss (eller dev-fss).
+Sparker-feriepenger kjører som en `job` i prod-gcp (eller dev-gcp).
 
 ## Forberedelser
 1. I spleis, oppdater hardkodet verdi på `DATO_FOR_SISTE_FERIEPENGEKJØRING_I_INFOTRYGD` i forhold til året det skal kjøres beregning for.
