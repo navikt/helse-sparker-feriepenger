@@ -12,7 +12,6 @@ spec:
       cpu: 100m
     limits:
       memory: 4096Mi
-      cpu: 100m
   ttlSecondsAfterFinished: 300
   backoffLimit: 0
   parallelism: 1
@@ -34,12 +33,10 @@ spec:
   env:
     - name: KAFKA_TARGET_TOPIC
       value: tbd.rapid.v1
-    - name: ANTALL
-      value: "100"
     - name: ANTALL_SKIPPED
       value: "0"
     - name: ENKELTPERSONER
       value: ""
     - name: OPPTJENINGSAAR
-      value: "2021"
+      value: "2022"
 
