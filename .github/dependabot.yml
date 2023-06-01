@@ -24,5 +24,4 @@ updates:
       prefix: "⬆️ "
     schedule:
       interval: "daily"
-    # Lager kun pull requests ved sikkerhetsoppdateringer
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 5
