@@ -41,24 +41,3 @@ jobs:
         run: |
           docker login --username "$GITHUB_REPOSITORY" -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
           docker push ${{ needs.set_version.outputs.image }}
-
-  snyk:
-    name: check vulnerabilities
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Cache Gradle packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
-      - name: Gradle vulnerability check
-        uses: snyk/actions/gradle-jdk16@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          ORG_GRADLE_PROJECT_githubUser: x-access-token
-          ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: --project-name=helse-sparker-feriepenger --org=tbd-ty7 --fail-on=all
-          command: monitor
