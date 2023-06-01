@@ -24,7 +24,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.0.0")
     implementation("com.google.cloud.sql:postgres-socket-factory:1.7.2")
     implementation("org.postgresql:postgresql:42.2.23")
-    implementation("com.github.seratch:kotliquery:1.6.1")
+    implementation("com.github.seratch:kotliquery:1.9.0")
     implementation("ch.qos.logback:logback-classic:1.2.6")
     implementation("net.logstash.logback:logstash-logback-encoder:6.6") {
         exclude("com.fasterxml.jackson.core")
