@@ -10,7 +10,7 @@ internal class DataSourceBuilder(env: Map<String, String>) {
 
     private val gcpProjectId = requireNotNull(env["GCP_TEAM_PROJECT_ID"]) { "gcp project id must be set" }
     private val databaseRegion = "europe-north1"
-    private val databaseInstance = "spare"
+    private val databaseInstance = requireNotNull(env["DB_INSTANCE"]) { "db instance must be set" }
     private val databaseUsername = requireNotNull(env["${dbUsername}_USERNAME"]) { "database username must be set" }
     private val databasePassword = requireNotNull(env["${dbUsername}_PASSWORD"]) { "database password must be set"}
 

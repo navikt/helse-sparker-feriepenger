@@ -33,6 +33,8 @@ spec:
   env:
     - name: KAFKA_TARGET_TOPIC
       value: tbd.rapid.v1
+    - name: DB_INSTANCE
+      value: spare2
     - name: ANTALL_SKIPPED
       value: "0"
     - name: ENKELTPERSONER
