@@ -5,7 +5,7 @@ val junitJupiterVersion = "5.10.1"
 val jacksonVersion = "2.15.2"
 
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "1.9.22"
 }
 
 
