@@ -1,6 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 
-val kafkaVersion = "2.8.0"
+val kafkaVersion = "7.6.0-ce"
 val junitJupiterVersion = "5.10.2"
 val jacksonVersion = "2.15.2"
 
