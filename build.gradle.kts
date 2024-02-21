@@ -21,7 +21,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
     implementation("org.flywaydb:flyway-core:7.15.0")
-    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("com.google.cloud.sql:postgres-socket-factory:1.7.2")
     implementation("org.postgresql:postgresql:42.7.2")
     implementation("com.github.seratch:kotliquery:1.9.0")
