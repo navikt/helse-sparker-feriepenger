@@ -5,7 +5,7 @@ val junitJupiterVersion = "5.10.2"
 val jacksonVersion = "2.15.2"
 
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "1.9.23"
 }
 
 
@@ -46,10 +46,10 @@ dependencies {
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "16"
+        kotlinOptions.jvmTarget = "21"
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "16"
+        kotlinOptions.jvmTarget = "21"
     }
 
     named<Jar>("jar") {
@@ -64,7 +64,7 @@ tasks {
 
         doLast {
             configurations.runtimeClasspath.get().forEach {
-                val file = File("$buildDir/libs/${it.name}")
+                val file = File("${layout.buildDirectory.get()}/libs/${it.name}")
                 if (!file.exists())
                     it.copyTo(file)
             }
@@ -83,6 +83,6 @@ tasks {
     }
 
     withType<Wrapper> {
-        gradleVersion = "7.2"
+        gradleVersion = "8.7"
     }
 }
