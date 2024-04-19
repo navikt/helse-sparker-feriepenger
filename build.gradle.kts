@@ -20,7 +20,7 @@ dependencies {
     api("org.apache.kafka:kafka-clients:$kafkaVersion")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
-    implementation("org.flywaydb:flyway-core:7.15.0")
+    implementation("org.flywaydb:flyway-core:10.11.1")
     implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("com.google.cloud.sql:postgres-socket-factory:1.7.2")
     implementation("org.postgresql:postgresql:42.7.2")
