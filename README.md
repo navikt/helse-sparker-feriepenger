@@ -11,11 +11,13 @@ Sparker-feriepenger kjører som en `naisjob` i prod-gcp (eller dev-gcp).
 1. Legg inn ønsket antall personer å sende ut behov i `ANTALL`-variabel i relevant yml-fil, `/deploy/prod-gcp.yml` eller `/deploy/dev-gcp.yml`
 1. Sett hvilket `OPPTJENINGSAAR` det skal beregnes feriepenger for i relevant yml-fil
 1. Slett eventuelle tidligere instanser av jobben med `k -n tbd delete naisjob helse-sparker-feriepenger` i riktig cluster
-1. Deploy `deploy/db-spare-prod.yml` for at helse-sparker-feriepenger skal få nettverkstilgang til databasen til spare, finnes den fra før kan det være lurt å slette den gamle (`k -n tbd delete networkpolicy spare-db-policy`)
+1. Deploy UtbetalingshistorikkForFeriepengerMessage`deploy/db-spare-prod.yml` for at helse-sparker-feriepenger skal få nettverkstilgang til databasen til spare, finnes den fra før kan det være lurt å slette den gamle (`k -n tbd delete networkpolicy spare-db-policy`)
 1. Deploy jobben med `k -n tbd apply -f deploy/dev-gcp.yml` eller `k -n tbd apply -f deploy/prod-gcp.yml`
 1. For å følge med på output: finn podden med `k -n tbd get pods | grep helse-sparker-feriepenger`. Tail log med: `k -n tbd logs -f <pod>`
 2. Dette funker ikke sjelden. Når det blir feil i loggene kan det reddes inn med en `k patch naisjob helse-sparker-feriepenger -n tbd --type json -p='[{"op": "remove", "path": "/status/synchronizationHash"}]'`
 3. Funker det fortsatt ikke? Prøv steget over igjen. Det kan ta noen forsøk
+4. Slett jobben `k -n tbd delete naisjob helse-sparker-feriepenger`
+5. Skru av SendFeriepengeOppdrag-toggle i spleis
 
 ## Nyttig triks når alt håp er ute
 Google og oppdater readme
