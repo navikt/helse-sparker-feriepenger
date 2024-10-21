@@ -44,14 +44,13 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
 }
 
-tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = "21"
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
     }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "21"
-    }
+}
 
+tasks {
     named<Jar>("jar") {
         archiveFileName.set("app.jar")
 
@@ -83,6 +82,6 @@ tasks {
     }
 
     withType<Wrapper> {
-        gradleVersion = "8.7"
+        gradleVersion = "8.10.2"
     }
 }
