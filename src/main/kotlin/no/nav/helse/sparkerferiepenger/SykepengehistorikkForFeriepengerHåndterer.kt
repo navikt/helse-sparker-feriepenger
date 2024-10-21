@@ -16,7 +16,7 @@ class SykepengehistorikkForFeriepengerHåndterer(private val topic: String) {
         producer: KafkaProducer<String, String>
     ) {
         try {
-            val metadata = producer.send(
+            producer.send(
                 ProducerRecord(
                     topic,
                     fnr,
@@ -24,8 +24,7 @@ class SykepengehistorikkForFeriepengerHåndterer(private val topic: String) {
                         mapTilSykepengehistorikkForFeriepengerBehov(fnr, aktørId, fom, tom)
                     )
                 )
-            ).get()
-            logger.info("Sendt ut record med offset - ${metadata.offset()}, partisjon ${metadata.partition()}")
+            )
         } catch (e: Exception) {
             logger.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for person")
             logger.error("Kunne ikke sende ut SykepengerhistorikkForFeriepenger-behov for person aktørid=$aktørId", e)
