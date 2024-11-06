@@ -10,21 +10,18 @@ class MeldingDao(private val dataSource: DataSource) {
     fun hentFødselsnummere(antall: Int, antallSkipped: Int) = using(sessionOf(dataSource)) { session ->
         val query = """
             SELECT DISTINCT ON(fnr)
-            fnr, aktor_id
+            fnr
             FROM
                 melding
             ORDER BY fnr
             LIMIT $antall OFFSET $antallSkipped;
         """
         session.run(queryOf(query).map {
-            PersonIder(
-                fødselsnummer = it.long("fnr").padToFnr(),
-                aktørId = it.string("aktor_id")
-            )
+            PersonIder(fødselsnummer = it.long("fnr").padToFnr())
         }.asList)
     }
 }
 
-data class PersonIder(val fødselsnummer: String, val aktørId: String)
+data class PersonIder(val fødselsnummer: String)
 
 internal fun Long.padToFnr() = toString().padStart(11, '0')

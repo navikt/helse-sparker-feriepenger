@@ -71,9 +71,8 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
     if (enkeltpersoner.isNotBlank()) {
         enkeltpersoner
             .split(",")
-            .map { it.split(":") }
-            .forEach { (fnr, aktørId) ->
-                sykepengehistorikkForFeriepengerHåndterer.håndter(fnr, aktørId, fom, tom, producer)
+            .forEach { fnr ->
+                sykepengehistorikkForFeriepengerHåndterer.håndter(fnr, fom, tom, producer)
             }
         return
     }
@@ -82,13 +81,7 @@ internal fun sendSykepengehistorikkForFeriepengerJob(
     logger.info("Fant ${fødselsnumre.size} fødselsnumre, starter publisering av behov...")
 
     fødselsnumre.forEach { personIder ->
-        sykepengehistorikkForFeriepengerHåndterer.håndter(
-            personIder.fødselsnummer,
-            personIder.aktørId,
-            fom,
-            tom,
-            producer
-        )
+        sykepengehistorikkForFeriepengerHåndterer.håndter(personIder.fødselsnummer, fom, tom, producer)
     }
 
     producer.flush()
