@@ -14,7 +14,6 @@ fun mapTilSykepengehistorikkForFeriepengerBehov(
         "@id" to UUID.randomUUID(),
         "@event_name" to "behov",
         "@opprettet" to LocalDateTime.now(),
-        "aktørId" to "bjeff_dette_feltet_er_bevisst_satt_til_dette_mjau_mjau",
         "fødselsnummer" to fnr,
         "@behov" to listOf("SykepengehistorikkForFeriepenger"),
         "SykepengehistorikkForFeriepenger" to mapOf(
