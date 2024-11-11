@@ -80,8 +80,4 @@ tasks {
             showStackTraces = true
         }
     }
-
-    withType<Wrapper> {
-        gradleVersion = "8.10.2"
-    }
 }
