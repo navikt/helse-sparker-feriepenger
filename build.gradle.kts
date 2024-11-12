@@ -1,7 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 
 val kafkaVersion = "2.8.0"
-val junitJupiterVersion = "5.10.2"
+val junitJupiterVersion = "5.11.3"
 val jacksonVersion = "2.15.2"
 
 plugins {
@@ -38,10 +38,8 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.19.5")
     testImplementation("io.mockk:mockk:1.13.9")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
 }
 
 kotlin {
