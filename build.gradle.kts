@@ -1,8 +1,8 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 
-val kafkaVersion = "2.8.0"
+val kafkaVersion = "3.9.0"
 val junitJupiterVersion = "5.11.3"
-val jacksonVersion = "2.15.2"
+val jacksonVersion = "2.18.1"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -26,7 +26,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.2")
     implementation("com.github.seratch:kotliquery:1.9.0")
     implementation("ch.qos.logback:logback-classic:1.2.6")
-    implementation("net.logstash.logback:logstash-logback-encoder:6.6") {
+    implementation("net.logstash.logback:logstash-logback-encoder:8.0") {
         exclude("com.fasterxml.jackson.core")
         exclude("com.fasterxml.jackson.dataformat")
     }
