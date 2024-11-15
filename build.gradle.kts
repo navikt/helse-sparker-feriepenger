@@ -5,6 +5,7 @@ val junitJupiterVersion = "5.11.3"
 val jacksonVersion = "2.18.1"
 val logbackClassicVersion = "1.5.12"
 val logbackEncoderVersion = "8.0"
+val hikariCPVersion = "6.1.0"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -23,7 +24,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
     implementation("org.flywaydb:flyway-core:7.15.0")
-    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("com.zaxxer:HikariCP:$hikariCPVersion")
     implementation("com.google.cloud.sql:postgres-socket-factory:1.7.2")
     implementation("org.postgresql:postgresql:42.7.2")
     implementation("com.github.seratch:kotliquery:1.9.0")
