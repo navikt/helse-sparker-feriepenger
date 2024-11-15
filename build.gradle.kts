@@ -8,6 +8,7 @@ val logbackEncoderVersion = "8.0"
 val hikariCPVersion = "6.1.0"
 val postgresqlVersion = "42.7.4"
 val tbdLibsVersion = "2024.11.15-13.07-510d28ca"
+val cloudSqlVersion = "1.21.0"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -36,7 +37,7 @@ dependencies {
 
     //implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
     implementation("com.zaxxer:HikariCP:$hikariCPVersion")
-    implementation("com.google.cloud.sql:postgres-socket-factory:1.7.2")
+    implementation("com.google.cloud.sql:postgres-socket-factory:$cloudSqlVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("com.github.seratch:kotliquery:1.9.0")
     implementation("ch.qos.logback:logback-classic:$logbackClassicVersion")
