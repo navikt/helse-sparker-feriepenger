@@ -11,7 +11,6 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
 import java.time.LocalDate
 
-@TestInstance(Lifecycle.PER_CLASS)
 internal class ComponentTest : TestAbstract() {
     private val topic = "test-topic"
 

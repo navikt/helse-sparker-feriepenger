@@ -7,24 +7,34 @@ val logbackClassicVersion = "1.5.12"
 val logbackEncoderVersion = "8.0"
 val hikariCPVersion = "6.1.0"
 val postgresqlVersion = "42.7.4"
-val flywayVersion = "10.21.0"
+val tbdLibsVersion = "2024.11.15-13.07-510d28ca"
 
 plugins {
     kotlin("jvm") version "2.0.21"
 }
 
-
 repositories {
+    val githubPassword: String? by project
     mavenCentral()
-    maven("https://jitpack.io")
-    maven("https://packages.confluent.io/maven/")
+    /* ihht. https://github.com/navikt/utvikling/blob/main/docs/teknisk/Konsumere%20biblioteker%20fra%20Github%20Package%20Registry.md
+        så plasseres github-maven-repo (med autentisering) før nav-mirror slik at github actions kan anvende førstnevnte.
+        Det er fordi nav-mirroret kjører i Google Cloud og da ville man ellers fått unødvendige utgifter til datatrafikk mellom Google Cloud og GitHub
+     */
+    maven {
+        url = uri("https://maven.pkg.github.com/navikt/maven-release")
+        credentials {
+            username = "x-access-token"
+            password = githubPassword
+        }
+    }
+    maven("https://github-package-registry-mirror.gc.nav.no/cached/maven-release")
 }
 
 dependencies {
-    api(kotlin("stdlib-jdk8"))
+    //api(kotlin("stdlib-jdk8"))
     api("org.apache.kafka:kafka-clients:$kafkaVersion")
 
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
+    //implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
     implementation("com.zaxxer:HikariCP:$hikariCPVersion")
     implementation("com.google.cloud.sql:postgres-socket-factory:1.7.2")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
@@ -39,9 +49,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 
-    testImplementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
-    testImplementation("org.testcontainers:postgresql:1.19.5")
-    testImplementation("io.mockk:mockk:1.13.9")
+    testImplementation("com.github.navikt.tbd-libs:postgres-testdatabaser:$tbdLibsVersion")
+    testImplementation("io.mockk:mockk:1.13.13")
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

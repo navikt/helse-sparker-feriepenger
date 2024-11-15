@@ -1,55 +1,31 @@
 package no.nav.helse.sparkerferiepenger
 
-import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
+import com.github.navikt.tbd_libs.test_support.DatabaseContainers
+import com.github.navikt.tbd_libs.test_support.TestDataSource
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
-import org.flywaydb.core.Flyway
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.testcontainers.containers.PostgreSQLContainer
 import java.util.*
 import javax.sql.DataSource
 
+val databaseContainer = DatabaseContainers.container("sparker-feriepenger")
+
 abstract class TestAbstract {
-    private val dataSource: DataSource
-    private val flyway: Flyway
-    protected val meldingDao: MeldingDao
-
-    private val postgres = PostgreSQLContainer<Nothing>("postgres:14").apply {
-        withReuse(true)
-        withLabel("app-navn", "sparke-sin-sparsom")
-        start()
-
-        println("Database: jdbc:postgresql://localhost:$firstMappedPort/test startet opp, credentials: test og test")
-    }
-
-    init {
-        dataSource = HikariDataSource(HikariConfig().apply {
-            jdbcUrl = postgres.jdbcUrl
-            username = postgres.username.also (::println)
-            password = postgres.password
-            maximumPoolSize = 3
-            minimumIdle = 1
-            idleTimeout = 10001
-            connectionTimeout = 10000
-            initializationFailTimeout = 5000
-            maxLifetime = 30001
-        })
-
-        flyway = Flyway
-            .configure()
-            .dataSource(dataSource)
-            .cleanDisabled(false)
-            .load()
-
-        meldingDao = MeldingDao(dataSource)
-    }
+    private lateinit var testDataSource: TestDataSource
+    private val dataSource: DataSource get() = testDataSource.ds
+    protected lateinit var meldingDao: MeldingDao
 
     @BeforeEach
     internal open fun setup() {
-        flyway.clean()
-        flyway.migrate()
+        testDataSource = databaseContainer.nyTilkobling()
+        meldingDao = MeldingDao(dataSource)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        databaseContainer.droppTilkobling(testDataSource)
     }
 
     companion object {
