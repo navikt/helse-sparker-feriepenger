@@ -6,6 +6,8 @@ val jacksonVersion = "2.18.1"
 val logbackClassicVersion = "1.5.12"
 val logbackEncoderVersion = "8.0"
 val hikariCPVersion = "6.1.0"
+val postgresqlVersion = "42.7.4"
+val flywayVersion = "10.21.0"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -23,10 +25,9 @@ dependencies {
     api("org.apache.kafka:kafka-clients:$kafkaVersion")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
-    implementation("org.flywaydb:flyway-core:7.15.0")
     implementation("com.zaxxer:HikariCP:$hikariCPVersion")
     implementation("com.google.cloud.sql:postgres-socket-factory:1.7.2")
-    implementation("org.postgresql:postgresql:42.7.2")
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("com.github.seratch:kotliquery:1.9.0")
     implementation("ch.qos.logback:logback-classic:$logbackClassicVersion")
     implementation("net.logstash.logback:logstash-logback-encoder:$logbackEncoderVersion") {
@@ -38,6 +39,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 
+    testImplementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
     testImplementation("org.testcontainers:postgresql:1.19.5")
     testImplementation("io.mockk:mockk:1.13.9")
 

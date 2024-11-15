@@ -40,6 +40,7 @@ abstract class TestAbstract {
         flyway = Flyway
             .configure()
             .dataSource(dataSource)
+            .cleanDisabled(false)
             .load()
 
         meldingDao = MeldingDao(dataSource)
