@@ -7,7 +7,7 @@ val logbackClassicVersion = "1.5.12"
 val logbackEncoderVersion = "8.0"
 val hikariCPVersion = "6.1.0"
 val postgresqlVersion = "42.7.4"
-val tbdLibsVersion = "2024.11.25-10.59-6f263a10"
+val tbdLibsVersion = "2025.01.27-12.50-76316f3b"
 val cloudSqlVersion = "1.21.0"
 
 plugins {
