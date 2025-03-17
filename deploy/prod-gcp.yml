@@ -16,7 +16,7 @@ spec:
   backoffLimit: 0
   parallelism: 1
   completions: 1
-  image: ghcr.io/navikt/helse-sparker-feriepenger/helse-sparker-feriepenger:<SHA>
+  image: europe-north1-docker.pkg.dev/nais-management-233d/tbd/helse-sparker-feriepenger:<TAG>
   kafka:
     pool: nav-prod
   secureLogs:

@@ -8,6 +8,7 @@ Sparker-feriepenger kjører som en `naisjob` i prod-gcp (eller dev-gcp).
 ## Kjøre jobben
 1. Finn ønsket Docker-image fra feks. output fra GitHub Actions
 1. Legg inn ønsket SHA for docker image i relevant yml-fil, `/deploy/prod-gcp.yml` eller `/deploy/dev-gcp.yml`
+   - Denne finnes i rapporten i siste run av `bygg og deploy` GitHub Action [her](https://github.com/navikt/helse-sparker-feriepenger/actions), i feltet `tags` under `Build inputs`.
 1. Legg inn ønsket antall personer å sende ut behov i `ANTALL`-variabel i relevant yml-fil, `/deploy/prod-gcp.yml` eller `/deploy/dev-gcp.yml`
 1. Sett hvilket `OPPTJENINGSAAR` det skal beregnes feriepenger for i relevant yml-fil
 1. Logg på GCP med `gcloud auth login --update-adc` 
