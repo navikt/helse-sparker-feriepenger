@@ -36,5 +36,5 @@ jobs:
         id: docker-build-push
         with:
           team: tbd
-        outputs:
-          image: ${{ steps.docker-build-push.outputs.image }}
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
