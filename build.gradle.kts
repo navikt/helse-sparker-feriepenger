@@ -1,13 +1,13 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 
 val kafkaVersion = "3.9.0"
-val junitJupiterVersion = "5.11.3"
-val jacksonVersion = "2.18.1"
+val junitJupiterVersion = "5.12.1"
+val jacksonVersion = "2.18.3"
 val logbackClassicVersion = "1.5.12"
 val logbackEncoderVersion = "8.0"
-val hikariCPVersion = "6.1.0"
-val postgresqlVersion = "42.7.4"
-val tbdLibsVersion = "2025.01.27-12.50-76316f3b"
+val hikariCPVersion = "6.3.0"
+val postgresqlVersion = "42.7.5"
+val tbdLibsVersion = "2025.03.27-18.30-c228796d"
 val cloudSqlVersion = "1.21.0"
 
 plugins {
